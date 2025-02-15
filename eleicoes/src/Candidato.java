@@ -19,6 +19,13 @@ public class Candidato{
         this.nasc = nasc;
         this.partido = partido;
     }
+
+    public int getNumVotos() {
+        return this.numVotos;
+    }
     
+    public boolean getFoiEleito() {
+
+    }
 
 }
