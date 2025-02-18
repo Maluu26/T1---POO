@@ -25,6 +25,17 @@ public class Votacao {
         this.candidatosTotais.add(c);
         this.partidos.putIfAbsent(chaveP, p);
     }
+    public void apuraVotos(int numUrna, int quantVotos){
+        if(numUrna>9 && numUrna<100){
+            Partido p = this.partidos.get(numUrna);
+            p.incrementaVotosLegenda(quantVotos);
+        }
+        if(numUrna>9999 && numUrna<100000){
+            ///achar candidato e somar os seus votos e tbm os do seu partido;
+        }
+    }
+
+    
 
     /*public void calculaIdades(LinkedList<Candidato> candidatos){
         int anoEl = dataEleicao.getYear();

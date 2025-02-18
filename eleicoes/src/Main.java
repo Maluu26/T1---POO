@@ -18,8 +18,12 @@ public class Main {
         BufferedReader br = new BufferedReader(r);
         String linha = br.readLine();
         linha = br.readLine();
-        int i = 0, numEleitos = 0;
         
+        int i = 0, numEleitos = 0, numVotos = 0;
+        String palavra = "", nomeUrnaCand = "", siglaPart="", dataNasc = "", nomePart = "";   
+        int num = 0,  numCand=0,numPart=0, numFed=0, gen=0, eleito=0, numUrna = 0;
+
+
         /*MARCELA: não precisa mais dessas 2 linhas aqui né? já que vamos mandar tudo para dentro de Votacao */ ///
         HashMap <Integer,Partido> partidos = new HashMap<>();   ///
         Votacao eleicao = new Votacao();
@@ -27,10 +31,6 @@ public class Main {
             
             Scanner scanner = new Scanner(linha).useDelimiter(";");    
             i = 0;
-            String palavra = "", nomeUrnaCand = "", siglaPart="",
-            dataNasc = "", nomePart = "";   
-            int num = 0,  numCand=0,numPart=0, numFed=0, gen=0, eleito=0;
-
             while(i<50 && scanner.hasNext()){
                 if(scanner.hasNextInt()){
                     
@@ -83,7 +83,45 @@ public class Main {
             }
           br.close();
           fin.close();
-          System.out.println("Eleitos   " + numEleitos);
+
+
+        FileInputStream vot = new FileInputStream("votacao.csv");
+        InputStreamReader rVot = new InputStreamReader(vot, "ISO-8859-1");
+        BufferedReader brVot = new BufferedReader(rVot);
+        String linhaVot = brVot.readLine();
+        linhaVot = brVot.readLine();
+        i = 0;
+        
+        while(linhaVot!=null) {
+            
+            Scanner scanner = new Scanner(linhaVot).useDelimiter(";");    
+            i = 0;
+
+            while(i<22 && scanner.hasNext()){
+                if(scanner.hasNextInt()){                
+                    
+                    num = scanner.nextInt();
+                    if(num != 13 && i == 17) break; 
+                    if(i==19 && (num>=95 && num<=98)) break;
+                    if(i==19) numUrna = num;     
+                    if(i==21) eleicao.apuraVotos(numUrna, num);
+                
+                }else{
+
+                    palavra = scanner.next();
+                    palavra = palavra.substring(1,palavra.length()-1);
+                    if(!palavra.equals(code) && i ==11) break; 
+                    
+                }
+                i+=1;
+            }     
+            scanner.close();
+            linhaVot = brVot.readLine();
+            }
+          brVot.close();
+          vot.close();
+    
+        System.out.println("Eleitos   " + numEleitos);
            
         //fazer comparator;
         }         

@@ -19,8 +19,8 @@ public class Partido {
         this.qtdCandidatos++;
     }
 
-    public void incrementaVotosLegenda(){
-        this.qtdVotosLegenda++;
+    public void incrementaVotosLegenda(int votos){
+        this.qtdVotosLegenda=+ votos;
     }
 
     public String getSigla() {
