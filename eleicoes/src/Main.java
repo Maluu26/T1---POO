@@ -1,12 +1,13 @@
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         /*if(args.length<5){
             System.out.println("ERRO");
         }*/
@@ -18,8 +19,10 @@ public class Main {
         String linha = br.readLine();
         linha = br.readLine();
         int i = 0, numEleitos = 0;
-        LinkedList <Candidato> candidatos = new LinkedList<>();
-        HashMap <Integer,Partido> partidos = new HashMap<>();
+        
+        /*MARCELA: não precisa mais dessas 2 linhas aqui né? já que vamos mandar tudo para dentro de Votacao */
+        LinkedList <Candidato> candidatos = new LinkedList<>(); ///
+        HashMap <Integer,Partido> partidos = new HashMap<>();   ///
        
         int invalidos = 0;
         while(linha!=null) {
@@ -84,6 +87,14 @@ public class Main {
                     }*/ 
                     Candidato c = new Candidato(nomeUrnaCand,numCand, numFed, eleito, gen, null, null);
                     candidatos.addLast(c);
+
+                    /*  MARCELA: e se a gente fizer assim:
+                        1- Criar o partido p (ai ele so vai entrar na Votacao v se ainda não existir, 
+                            mas essa verificação não precisa ser feita aqui, pois já é feita automaticamente na hora de inserir com putIfAbsent());
+                        2- criar o candidato c(adicionando o partido ao qual c pertence);
+                        3- adicionar c à lista de candidatos do partido p;
+                        4- colocar c e p dentro de Votacao v;
+                    */
                 }
 
                 
@@ -97,6 +108,7 @@ public class Main {
           fin.close();
           System.out.println("Eleitos   " + numEleitos);
         
+        /*MARCELA: isso aqui tb não vai precisar estar na main, já vai ter em Votacao */
           LinkedList <Candidato> eleitos = new LinkedList<>();
           for(Candidato c: candidatos){
             if(c.foiEleito()) eleitos.add(c);}

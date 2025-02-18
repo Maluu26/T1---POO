@@ -1,10 +1,9 @@
-import java.util.Set;
-import java.util.HashSet;
+import java.util.LinkedList;
 
 public class Partido {
     private String nome, sigla;
     private int numPartido, qtdVotosLegenda, qtdCandidatos;
-    private Set<Candidato> candidatos;
+    private LinkedList<Candidato> candidatos;
 
     public Partido(String nome, String sigla, int numPartido){
         this.nome = nome;
@@ -12,7 +11,7 @@ public class Partido {
         this.numPartido = numPartido;
         this.qtdVotosLegenda = 0;
         this.qtdCandidatos = 0;
-        this.candidatos = new HashSet<Candidato>();
+        this.candidatos = new LinkedList<>();
     }
 
     public void adicionaCandidato(Candidato c){
@@ -64,15 +63,15 @@ public class Partido {
     public getQtdEleitos(){
         int total = 0;
         for(Candidato c: this.candidatos){
-            if(c.getFoiEleito() == true){
+            if(c.foiEleito() == true){
                 total++;
             }
         }
         return total;
     }
 
-    public Set<Candidato> getCandidatos(){
-        Set<Candidato> copiaCandidatos = new HashSet<Candidato>();
+    public LinkedList<Candidato> getCandidatos(){
+        LinkedList <Candidato> copiaCandidatos = new LinkedList<>();
         copiaCandidatos.addAll(this.candidatos);
         return copiaCandidatos;
     }

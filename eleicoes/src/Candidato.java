@@ -5,7 +5,7 @@ public class Candidato{
 
 
     private String nome;
-    private int numUrna, numFederacao, foiEleito, gen, numVotos;
+    private int numUrna, numFederacao, foiEleito, gen, numVotos, idade;
     private LocalDate nasc;
     private Partido partido;
     
@@ -20,6 +20,7 @@ public class Candidato{
         this.numVotos = 0;
         this.nasc = nasc;
         this.partido = partido;
+        this.idade = 0;
     }
 
 
@@ -60,9 +61,14 @@ public class Candidato{
         return nasc;
     }
 
+    public void setIdade(int idade){
+        this.idade = idade;
+    }
 
+    public int getIdade(){
+        return idade;
+    }
    
-
     public void adicionaVoto(){
         this.numVotos++;
     }
