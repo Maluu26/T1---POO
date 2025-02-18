@@ -73,5 +73,10 @@ public class Votacao {
             if(c.foiEleito()) candidatosEleitos.add(c);
         }
     }
-
+    /*LinkedList <Candidato> eleitos = new LinkedList<>();
+    for(Candidato c: candidatos){
+      if(c.foiEleito()) eleitos.add(c);}
+    for(Candidato c: eleitos){   
+      System.out.println(c);
+  }*/
 }

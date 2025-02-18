@@ -60,7 +60,7 @@ public class Partido {
         return this.qtdVotosNominais();
     }
 
-    public getQtdEleitos(){
+    /*public getQtdEleitos(){
         int total = 0;
         for(Candidato c: this.candidatos){
             if(c.foiEleito() == true){
@@ -68,7 +68,7 @@ public class Partido {
             }
         }
         return total;
-    }
+    }*/
 
     public LinkedList<Candidato> getCandidatos(){
         LinkedList <Candidato> copiaCandidatos = new LinkedList<>();
