@@ -75,7 +75,7 @@ public class Candidato{
     public String toString() {
         String texto = "";
         if(this.numFederacao != -1) texto = "*";
-        texto+= this.nome + " (" + this.partido.getNome() + ", " + this.numVotos + " votos)";
+        texto+= this.nome + " (" + this.partido.getSigla() + ", " + this.numVotos + " votos)";
         return texto;
     }
     

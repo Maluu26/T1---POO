@@ -1,9 +1,14 @@
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Locale;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -37,7 +42,8 @@ public class Votacao {
                 p.incrementaVotosLegenda(quantVotos);
             }
             if(p==null){
-                p = new Partido(nomePart,null,numUrna);
+                String sigla = procuraPorSigla(numUrna, nomePart);
+                p = new Partido(nomePart,sigla,numUrna);
                 p.incrementaVotosLegenda(quantVotos);
                 this.partidos.put(numUrna, p);
             }
@@ -53,6 +59,49 @@ public class Votacao {
         }
     }
 
+    public String procuraPorSigla(int numUrna, String nomePart){
+        try{
+            FileInputStream fin = new FileInputStream("candidatos.csv");
+            InputStreamReader r = new InputStreamReader(fin, "ISO-8859-1");
+            BufferedReader br = new BufferedReader(r);
+            String linha = br.readLine();
+            linha = br.readLine();
+            int num = 0, flag = 0;
+            String palavra = "";
+
+            while(linha!=null){
+               Scanner scanner = new Scanner(linha);
+               scanner.useDelimiter(";");
+                
+                for(int j = 0;j<30;j++) {
+                    
+                    if(j == 25){
+                        num = scanner.nextInt();
+                        if(num!=numUrna) break;
+                        else{
+                            palavra = scanner.next();
+                            palavra =  palavra.substring(1,palavra.length()-1);
+                            flag = 1;
+                            break;
+                            
+                        }
+                    }
+                    if(scanner.hasNext()) scanner.next();    
+                }
+                
+                 scanner.close();
+                 linha = br.readLine();
+                 if(flag == 1) break;
+            }
+            br.close();
+            return palavra;
+        }
+        catch(IOException e){
+            System.err.println("erro");
+            return null;
+        }
+       
+    }
     
 
     /*public void calculaIdades(){
@@ -113,7 +162,6 @@ public void contagemFinal(){
             votosNominais += c.getNumVotos();
         }
         int total = votosLegenda + votosNominais;
-        //MALU FAZER A FORMATAÇÃO DOS NÚMEROS PELO PAÍS E AJEITAR PORCENTAGEM
         double p1 = ((double)(votosNominais)/(double)(total))*100;
         double p2 = 100-p1;
        
