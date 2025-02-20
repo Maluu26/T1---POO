@@ -69,15 +69,20 @@ public class Candidato{
         return idade;
     }
    
-    public void adicionaVoto(){
+    /*public void adicionaVoto(){
         this.numVotos++;
+    }*/
+
+    public void adicionaVotos(int qtdVotos){
+        this.numVotos += qtdVotos;
+        this.partido.adicionaVotosNominais(qtdVotos);
     }
 
     @Override
     public String toString() {
         String texto = "";
         if(this.numFederacao != -1) texto = "*";
-        texto+= this.nome + "(" + this.numVotos+ " votos)";
+        texto+= this.nome + " (" + this.partido.getNome() + ", " + this.numVotos + " votos)";
         return texto;
     }
     

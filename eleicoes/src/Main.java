@@ -21,11 +21,9 @@ public class Main {
         
         int i = 0, numEleitos = 0, numVotos = 0;
         String palavra = "", nomeUrnaCand = "", siglaPart="", dataNasc = "", nomePart = "";   
-        int num = 0,  numCand=0,numPart=0, numFed=0, gen=0, eleito=0, numUrna = 0;
+        int num = 0, numCand=0, numPart=0, numFed=0, gen=0, eleito=0, numUrna = 0;
 
-
-        /*MARCELA: não precisa mais dessas 2 linhas aqui né? já que vamos mandar tudo para dentro de Votacao */ ///
-        HashMap <Integer,Partido> partidos = new HashMap<>();   ///
+        HashMap <Integer,Partido> partidos = new HashMap<>();  
         Votacao eleicao = new Votacao();
         while(linha!=null) {
             
@@ -65,16 +63,10 @@ public class Main {
                         p = new Partido(nomePart,siglaPart, numPart);
                         partidos.put(numPart, p);
                     }
-                    Candidato c = new Candidato(nomeUrnaCand,numCand, numFed, eleito, gen, null, p);
+                    //Candidato c = new Candidato(nomeUrnaCand,numCand, numFed, eleito, gen, null, p);
+                    Candidato c = new Candidato(nomeUrnaCand,numCand, numFed, eleito, gen, dataNasc, p);
                     eleicao.atualizaVotacao(c, p, numPart);
                     
-                    /*  MARCELA: e se a gente fizer assim:
-                        1- Criar o partido p (ai ele so vai entrar na Votacao v se ainda não existir, 
-                            mas essa verificação não precisa ser feita aqui, pois já é feita automaticamente na hora de inserir com putIfAbsent());
-                        2- criar o candidato c(adicionando o partido ao qual c pertence);
-                        3- adicionar c à lista de candidatos do partido p;
-                        4- colocar c e p dentro de Votacao v;
-                    */
                 }        
                 i+=1;
             }     
@@ -91,6 +83,7 @@ public class Main {
         String linhaVot = brVot.readLine();
         linhaVot = brVot.readLine();
         i = 0;
+        int flag=0;
         
         while(linhaVot!=null) {
             
@@ -111,6 +104,7 @@ public class Main {
                     palavra = scanner.next();
                     palavra = palavra.substring(1,palavra.length()-1);
                     if(!palavra.equals(code) && i ==11) break; 
+                    if(i==8 && flag==0) eleicao.setDataEleicao(palavra); flag=1;
                     
                 }
                 i+=1;
@@ -121,6 +115,7 @@ public class Main {
           brVot.close();
           vot.close();
     
+        //tem um metodo pra pegar a qtd de eleitos em Votacao, ent acho q essa variavel nem vai precisar
         System.out.println("Eleitos   " + numEleitos);
            
         //fazer comparator;

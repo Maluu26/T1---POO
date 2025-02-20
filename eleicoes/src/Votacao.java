@@ -25,24 +25,29 @@ public class Votacao {
         this.candidatosTotais.add(c);
         this.partidos.putIfAbsent(chaveP, p);
     }
+    
     public void apuraVotos(int numUrna, int quantVotos){
         if(numUrna>9 && numUrna<100){
             Partido p = this.partidos.get(numUrna);
             p.incrementaVotosLegenda(quantVotos);
         }
+        ///achar candidato e somar os seus votos e tbm os do seu partido;
         if(numUrna>9999 && numUrna<100000){
-            ///achar candidato e somar os seus votos e tbm os do seu partido;
+            for(Candidato c: this.candidatosTotais){
+                if(c.getNumUrna() == numUrna){
+                    c.adicionaVotos((quantVotos));
+                }
+            }
+            
         }
     }
 
-    
-
-    /*public void calculaIdades(LinkedList<Candidato> candidatos){
+    /*public void calculaIdades(){
         int anoEl = dataEleicao.getYear();
         int mesEl = dataEleicao.getMonthValue();
         int diaEl = dataEleicao.getDayOfMonth();
 
-        for(Candidato c: candidatos){
+        for(Candidato c: candidatosEleitos){
             int anoC = c.getNasc().getYear();
             int mesC = c.getNasc().getMonthValue();
             int diaC = c.getNasc().getDayOfMonth();
@@ -68,12 +73,8 @@ public class Votacao {
     }*/
     
     /*MARCELA: tem que ver se essa função vai funcionar direitinho. Se não, a gente usa a de cima mesmo; */
-    /*MARCELA: outra coisa, acho que podemos deixar private, pq só queremos acessar essa função especificamente aqui dentro e depois que todas as infos 
-     * da Votação v que vamos criar na main estiverem completas. quando formos precisar disso, vai ser em outra função do Votacao.java msm,
-     *  ent acho q não tem problema
-    */
     private void calculaIdades(){
-        for (Candidato c : candidatosTotais) {
+        for (Candidato c : candidatosEleitos) {
             int idade = (int) ChronoUnit.YEARS.between(c.getNasc(), dataEleicao);
             c.setIdade(idade);
         }
@@ -84,6 +85,50 @@ public class Votacao {
             if(c.foiEleito()) candidatosEleitos.add(c);
         }
     }
+
+    public int getQtdEleitos(){
+        return this.candidatosEleitos.size();
+    }
+
+    //fazendo de forma provisória, depois a gnt altera pra imprimir bonitinho
+    public void imprimeQtdPorGenero(){
+        int fem=0, masc = 0;
+        float femPorc=0, mascPorc=0;
+
+        if(this.getQtdEleitos() == 0) this.encontraEleitos();
+        for(Candidato c: this.candidatosEleitos){
+            if(c.getGen() == 4) fem++;
+            else masc++;
+        }
+        femPorc = (fem/this.getQtdEleitos()) * 100;
+        mascPorc = (masc/this.getQtdEleitos()) * 100;
+
+        //System.out.println();
+    }
+
+    public void imprimeQtdPorIdade(){
+        int faixa20=0, faixa30=0, faixa40=0, faixa50=0, faixa60=0;
+
+        if(this.getQtdEleitos() == 0) this.encontraEleitos();
+        this.calculaIdades();
+        //ordena por idade
+        //incrementa as variáveis de acordo com a faixa etária
+        //calcula e iimprime junto com as porcentagens
+
+        //System.out.println();
+    }
+
+    public void imprimeQtdVotosEleicao(){
+        int validos=0, nominais=0, legenda=0;
+        for(Parido p: this.partidos.values()){
+            nominais += p.getQtdVotosNominais();
+            legenda += p.getQtdVotosLegenda();
+        }
+        validos = nominais + legenda;
+        //System.out.println();
+    }
+
+    
     /*LinkedList <Candidato> eleitos = new LinkedList<>();
     for(Candidato c: candidatos){
       if(c.foiEleito()) eleitos.add(c);}
