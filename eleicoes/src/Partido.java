@@ -2,7 +2,7 @@ import java.util.LinkedList;
 
 public class Partido {
     private String nome, sigla;
-    private int numPartido, qtdVotosLegenda, qtdVotosNominais, qtdCandidatos;
+    private int numPartido, qtdVotosLegenda, qtdCandidatos;
     private LinkedList<Candidato> candidatos;
 
     public Partido(String nome, String sigla, int numPartido){
@@ -10,7 +10,6 @@ public class Partido {
         this.sigla = sigla;
         this.numPartido = numPartido;
         this.qtdVotosLegenda = 0;
-        this.qtdVotosNominais = 0;
         this.qtdCandidatos = 0;
         this.candidatos = new LinkedList<>();
     }
@@ -20,12 +19,8 @@ public class Partido {
         this.qtdCandidatos++;
     }
 
-    public void adicionaVotosNominais(int qtdVotos) {
-        this.qtdVotosNominais += qtdVotos;
-    }
-
     public void incrementaVotosLegenda(int votos){
-        this.qtdVotosLegenda=+ votos;
+        this.qtdVotosLegenda += votos;
     }
 
     public String getSigla() {
@@ -48,15 +43,24 @@ public class Partido {
         return qtdCandidatos;
     }
 
+	private int qtdVotosNominais(){
+        int total = 0;
+        for(Candidato c: this.candidatos){
+            total += c.getNumVotos();
+        }
+        return total;
+    }
+    
     public int getQtdVotosTotais() {
-        return this.qtdVotosNominais + this.qtdVotosLegenda;
+        int total = this.qtdVotosNominais();
+        return total + this.qtdVotosLegenda;
     }
 
     public int getQtdVotosNominais() {
-        return this.qtdVotosNominais;
+        return this.qtdVotosNominais();
     }
 
-    public getQtdEleitosNoPartido(){
+    public int getQtdEleitosNoPartido(){
         int total = 0;
         for(Candidato c: this.candidatos){
             if(c.foiEleito() == true){

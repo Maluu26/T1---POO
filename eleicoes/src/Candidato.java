@@ -2,8 +2,6 @@ import java.time.LocalDate;
 
 public class Candidato{
     
-
-
     private String nome;
     private int numUrna, numFederacao, foiEleito, gen, numVotos, idade;
     private LocalDate nasc;
@@ -68,14 +66,9 @@ public class Candidato{
     public int getIdade(){
         return idade;
     }
-   
-    /*public void adicionaVoto(){
-        this.numVotos++;
-    }*/
 
-    public void adicionaVotos(int qtdVotos){
+    public void incrementaVotosCandidato(int qtdVotos){
         this.numVotos += qtdVotos;
-        this.partido.adicionaVotosNominais(qtdVotos);
     }
 
     @Override

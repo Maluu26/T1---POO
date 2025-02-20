@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -63,8 +62,8 @@ public class Main {
                         p = new Partido(nomePart,siglaPart, numPart);
                         partidos.put(numPart, p);
                     }
-                    //Candidato c = new Candidato(nomeUrnaCand,numCand, numFed, eleito, gen, null, p);
-                    Candidato c = new Candidato(nomeUrnaCand,numCand, numFed, eleito, gen, dataNasc, p);
+                    Candidato c = new Candidato(nomeUrnaCand,numCand, numFed, eleito, gen, null, p);
+                    //Candidato c = new Candidato(nomeUrnaCand,numCand, numFed, eleito, gen, dataNasc, p);
                     eleicao.atualizaVotacao(c, p, numPart);
                     
                 }        
@@ -97,14 +96,16 @@ public class Main {
                     if(num != 13 && i == 17) break; 
                     if(i==19 && (num>=95 && num<=98)) break;
                     if(i==19) numUrna = num;     
-                    if(i==21) eleicao.apuraVotos(numUrna, num);
+                    if(i==21) {
+                        eleicao.apuraVotos(numUrna, num,nomePart);}
                 
                 }else{
 
                     palavra = scanner.next();
                     palavra = palavra.substring(1,palavra.length()-1);
                     if(!palavra.equals(code) && i ==11) break; 
-                    if(i==8 && flag==0) eleicao.setDataEleicao(palavra); flag=1;
+                    //if(i==8 && flag==0) eleicao.setDataEleicao(palavra); flag=1;
+                    if(i == 20) nomePart = palavra; 
                     
                 }
                 i+=1;
@@ -117,8 +118,10 @@ public class Main {
     
         //tem um metodo pra pegar a qtd de eleitos em Votacao, ent acho q essa variavel nem vai precisar
         System.out.println("Eleitos   " + numEleitos);
-           
-        //fazer comparator;
+        eleicao.eleitos();
+        eleicao.contagemFinal();
+        eleicao.eleitosGenero();
+        
         }         
         
     }

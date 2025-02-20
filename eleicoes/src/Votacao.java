@@ -3,6 +3,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Locale;
+import java.math.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class Votacao {
     private LocalDate dataEleicao;
@@ -25,22 +29,31 @@ public class Votacao {
         this.candidatosTotais.add(c);
         this.partidos.putIfAbsent(chaveP, p);
     }
-    
-    public void apuraVotos(int numUrna, int quantVotos){
+    public void apuraVotos(int numUrna, int quantVotos, String nomePart){
+       
         if(numUrna>9 && numUrna<100){
             Partido p = this.partidos.get(numUrna);
-            p.incrementaVotosLegenda(quantVotos);
-        }
-        ///achar candidato e somar os seus votos e tbm os do seu partido;
-        if(numUrna>9999 && numUrna<100000){
-            for(Candidato c: this.candidatosTotais){
-                if(c.getNumUrna() == numUrna){
-                    c.adicionaVotos((quantVotos));
-                }
+            if(p!=null){
+                p.incrementaVotosLegenda(quantVotos);
+            }
+            if(p==null){
+                p = new Partido(nomePart,null,numUrna);
+                p.incrementaVotosLegenda(quantVotos);
+                this.partidos.put(numUrna, p);
             }
             
         }
+        if(numUrna>9999 && numUrna<100000){
+            for(Candidato c: this.candidatosTotais){
+                if(c.getNumUrna()==numUrna){
+                    c.incrementaVotosCandidato(quantVotos);
+                    break;
+                }
+            }
+        }
     }
+
+    
 
     /*public void calculaIdades(){
         int anoEl = dataEleicao.getYear();
@@ -90,26 +103,71 @@ public class Votacao {
         return this.candidatosEleitos.size();
     }
 
-    //fazendo de forma provisória, depois a gnt altera pra imprimir bonitinho
-    public void imprimeQtdPorGenero(){
+public void contagemFinal(){
+        int votosNominais = 0, votosLegenda = 0;
+        
+        for(Partido p: this.partidos.values()){
+            votosLegenda += p.getQtdVotosLegenda();
+        }
+        for(Candidato c: this.candidatosTotais){
+            votosNominais += c.getNumVotos();
+        }
+        int total = votosLegenda + votosNominais;
+        //MALU FAZER A FORMATAÇÃO DOS NÚMEROS PELO PAÍS E AJEITAR PORCENTAGEM
+        double p1 = ((double)(votosNominais)/(double)(total))*100;
+        double p2 = 100-p1;
+       
+        NumberFormat brFormat = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
+        NumberFormat nf = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
+        brFormat.setGroupingUsed(true);
+        nf.setGroupingUsed(true);
+        nf.setMinimumFractionDigits(2);   
+        nf.setMaximumFractionDigits(2);  
+
+        System.out.println("Total de votos válidos:    " + brFormat.format(total));
+        System.out.println("Total de votos nominais:   " + brFormat.format(votosNominais) + " (" +(nf.format(p1))+"%)");
+        System.out.println("Total de votos de legenda: " + brFormat.format(votosLegenda)+" (" + nf.format(p2)+"%)");
+    }
+
+    public void eleitos(){
+        if(this.getQtdEleitos() == 0) this.encontraEleitos();
+        
+        //fazer comparator;
+        int i=1;
+        for(Candidato c: this.candidatosEleitos){   
+            System.out.println(i + " - " + c);
+            i++;
+        }
+
+    }
+
+    public void eleitosGenero(){
         int fem=0, masc = 0;
-        float femPorc=0, mascPorc=0;
 
         if(this.getQtdEleitos() == 0) this.encontraEleitos();
         for(Candidato c: this.candidatosEleitos){
             if(c.getGen() == 4) fem++;
             else masc++;
         }
-        femPorc = (fem/this.getQtdEleitos()) * 100;
-        mascPorc = (masc/this.getQtdEleitos()) * 100;
+        
+        NumberFormat brFormat = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
+        NumberFormat nf = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
+        brFormat.setGroupingUsed(true);
+        nf.setGroupingUsed(true);
+        nf.setMinimumFractionDigits(2);   
+        nf.setMaximumFractionDigits(2); 
+        
 
-        //System.out.println();
+        double femPorc = ((double)fem/(double)this.getQtdEleitos()) * 100;
+        double mascPorc = ((double)masc/(double)this.getQtdEleitos()) * 100;
+        System.out.println("Feminino:    " + brFormat.format(fem) + " (" + nf.format(femPorc)+"%)" );
+        System.out.println("Masculino:    " + brFormat.format(masc) + " (" + nf.format(mascPorc)+"%)" );
     }
 
-    public void imprimeQtdPorIdade(){
+    public void eleitosIdade(){
         int faixa20=0, faixa30=0, faixa40=0, faixa50=0, faixa60=0;
 
-        if(this.getQtdEleitos() == 0) this.encontraEleitos();
+        if(this.getQtdEleitos() == 0) this.eleitos();
         this.calculaIdades();
         //ordena por idade
         //incrementa as variáveis de acordo com a faixa etária
@@ -117,22 +175,5 @@ public class Votacao {
 
         //System.out.println();
     }
-
-    public void imprimeQtdVotosEleicao(){
-        int validos=0, nominais=0, legenda=0;
-        for(Parido p: this.partidos.values()){
-            nominais += p.getQtdVotosNominais();
-            legenda += p.getQtdVotosLegenda();
-        }
-        validos = nominais + legenda;
-        //System.out.println();
-    }
-
     
-    /*LinkedList <Candidato> eleitos = new LinkedList<>();
-    for(Candidato c: candidatos){
-      if(c.foiEleito()) eleitos.add(c);}
-    for(Candidato c: eleitos){   
-      System.out.println(c);
-  }*/
 }
