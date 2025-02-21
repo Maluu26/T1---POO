@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Locale;
@@ -26,6 +27,7 @@ public class Votacao {
     
     public void atualizaVotacaoPartido(Partido p, int chaveP){
         this.partidos.putIfAbsent(chaveP, p);
+        
     }
     
     public void atualizaVotacaoCandidato(Candidato c){
@@ -79,7 +81,17 @@ public class Votacao {
         }
         return votosNominais;
     }
-
+    public int foiMaisVotado(Candidato c){
+        LinkedList <Candidato> todos = this.getCandidatosTotais();
+        Collections.sort(todos, new CandidatoComparator());
+        int i = 1;
+        for(Candidato cand: todos){
+            if(cand == c && i<=getQtdEleitos()) return -1;
+            if(cand == c && i>getQtdEleitos()) break;
+            i++;
+        }
+        return i;
+    }
     public int getTotalVotosLegenda(){
         int votosLegenda = 0;;
         for(Partido p: this.partidos.values()){
@@ -95,12 +107,23 @@ public class Votacao {
     public LinkedList<Candidato> getCandidatosTotais(){
         return new LinkedList<>(this.candidatosTotais);
     }
-
+  
+ 
     public LinkedList<Candidato> getCandidatosEleitos(){
         if (this.getQtdEleitos() == 0) {
             this.encontraEleitos();
         }
+        Collections.sort(this.candidatosEleitos, new CandidatoComparator());
         return new LinkedList<>(this.candidatosEleitos);
     }
-    
+    public HashMap<Integer,Partido> getPartidos(){
+
+        return new HashMap<>(this.partidos);
+    }
+    public boolean foiEleito(Candidato c){
+        for(Candidato cEleito: this.candidatosEleitos){
+            if(c==cEleito) return true;
+        }
+        return false;
+    }
 }

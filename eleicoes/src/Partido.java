@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Partido {
@@ -71,7 +72,7 @@ public class Partido {
     public LinkedList<Candidato> getCandidatos(){
         return new LinkedList<>(this.candidatos);
     }
-
+   
     @Override
     public String toString() {
         String texto = "";

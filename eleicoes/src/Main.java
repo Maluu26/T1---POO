@@ -54,6 +54,9 @@ public class Main {
                         nomePart = palavra;
                         Partido p = null;
                         if(!eleicao.contemPartido(numUrna)){
+                            if(siglaPart == "PSD"){
+                                System.out.println("entra");
+                            }
                             p = new Partido(nomePart,siglaPart, numPart);
                             eleicao.atualizaVotacaoPartido(p, numPart);
                         }
@@ -68,6 +71,7 @@ public class Main {
                     Partido p = eleicao.getPartidoKey(numPart);
                     Candidato c = new Candidato(nomeUrnaCand,numCand, numFed, eleito, gen, dataNasc, p);
                     eleicao.atualizaVotacaoCandidato(c);
+                    p.adicionaCandidato(c);
                     
                 }        
                 i+=1;
@@ -131,7 +135,9 @@ public class Main {
         relatorio.eleitosIdade();
         relatorio.eleitosGenero();
         relatorio.contagemFinal();
-        
+        relatorio.partidosMaisVotados();
+        relatorio.candidatosQueSeriamEleitos();
+        relatorio.candidatosQueNaoSeriamEleitos();
         }         
         
     }

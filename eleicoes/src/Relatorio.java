@@ -1,8 +1,11 @@
 import java.text.NumberFormat;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+
+import javax.print.DocFlavor.STRING;
 
 public class Relatorio {
     private Votacao eleicao;
@@ -101,11 +104,54 @@ public class Relatorio {
         System.out.println("\n");
     }
 
-    public void partidos(){
-        //transformar a hash em lista, ordenar e imprimir
+    public void partidosMaisVotados(){
+        HashMap <Integer, Partido>h = eleicao.getPartidos();
+        LinkedList <Partido> partidos = new LinkedList<>(h.values());
+    
+        Collections.sort(partidos,new PartidoComparator());
+        int i = 1;
+        String nome ="";
+        System.out.println("Votação dos partidos e número de candidatos eleitos:\n");
+        for(Partido p: partidos){
+            int eleitos = p.getQtdEleitosNoPartido();
+            if(eleitos>1){  nome = " candidatos eleitos";}
+            else{ nome = " candidato eleito";}
+           
+            System.out.println(i + " - " + p.getSigla() + " - "+ p.getNumPartido()+ ", " +
+            brFormat.format(p.getQtdVotosTotais()) +  " votos(" + brFormat.format(p.getQtdVotosNominais())
+            +" nominais e " + brFormat.format(p.getQtdVotosLegenda())+ " de legenda), " + brFormat.format(p.getQtdEleitosNoPartido()) + nome);
+            i++;
+           
+        }
     }
 
-    
+   public void candidatosQueSeriamEleitos(){
+        LinkedList <Candidato> todos = this.eleicao.getCandidatosTotais();
+        Collections.sort(todos, new CandidatoComparator());
+        int i = 1;
+        System.out.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n" + //
+                        "(com sua posição no ranking de mais votados)");
+        for(Candidato c: todos){
+            if(!eleicao.foiEleito(c)) System.out.println(i + " - "+ c);
+            if(i==eleicao.getQtdEleitos()) break;
+            i++;
+
+        }
+   }
+   public void candidatosQueNaoSeriamEleitos(){
+    LinkedList <Candidato> eleitos = this.eleicao.getCandidatosEleitos();
+    int i = 1;
+    System.out.println("Eleitos, que se beneficiaram do sistema proporcional:\n" + //
+                "(com sua posição no ranking de mais votados)");
+    for(Candidato c: eleitos){
+        int num = eleicao.foiMaisVotado(c);
+        if(num != -1) System.out.println(num + " - "+ c);
+        if(i==13) break;
+        i++;
+    }
 }
+}
+
+
 
 
