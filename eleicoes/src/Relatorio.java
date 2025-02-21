@@ -1,4 +1,7 @@
 import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 public class Relatorio {
@@ -28,9 +31,11 @@ public class Relatorio {
 
     public void eleitos(){
         System.out.println("Vereadores eleitos:");
-        //fazer comparator;
+        List<Candidato> eleitos = eleicao.getCandidatosEleitos();
+        Collections.sort(eleitos, new CandidatoComparator());
+        
         int i=1;
-        for(Candidato c: eleicao.getCandidatosEleitos()){   
+        for(Candidato c : eleitos){
             System.out.println(i + " - " + c);
             i++;
         }
@@ -81,5 +86,26 @@ public class Relatorio {
         System.out.println("60 <= Idade     : " + faixa60 + " (" + nf.format(p60) +"%)\n\n");
         
     }
+
+    public void maisVotados(int vagas){
+        List<Candidato> candidatos = eleicao.getCandidatosTotais();
+        Collections.sort(candidatos, new CandidatoComparator());
+        
+        int i=1;
+        System.out.println("Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):");
+        for(Candidato c : candidatos){
+            System.out.println(i + " - " + c);
+            i++;
+            if(i > vagas) break;
+        }
+        System.out.println("\n");
+    }
+
+    public void partidos(){
+        //transformar a hash em lista, ordenar e imprimir
+    }
+
     
 }
+
+

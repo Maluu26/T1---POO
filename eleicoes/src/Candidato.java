@@ -34,6 +34,10 @@ public class Candidato{
         return numUrna;
     }
 
+    public Partido getPartido(){
+        return partido;
+    }
+
 
     public int getNumFederacao() {
         return numFederacao;

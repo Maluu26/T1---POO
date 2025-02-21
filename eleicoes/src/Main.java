@@ -126,7 +126,8 @@ public class Main {
         //tem um metodo pra pegar a qtd de eleitos em Votacao, ent acho q essa variavel nem vai precisar
         System.out.println("Número de vagas: " + numEleitos + "\n");
         Relatorio relatorio = new Relatorio(eleicao);
-        relatorio.eleitos();      
+        relatorio.eleitos();   
+        relatorio.maisVotados(numEleitos); 
         relatorio.eleitosIdade();
         relatorio.eleitosGenero();
         relatorio.contagemFinal();
