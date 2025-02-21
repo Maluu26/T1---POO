@@ -2,8 +2,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -11,18 +9,17 @@ public class Main {
             System.out.println("ERRO");
         }*/
         
-        String code = "01473";
+        int numCod = 1473;
         FileInputStream fin = new FileInputStream("candidatos.csv");
         InputStreamReader r = new InputStreamReader(fin, "ISO-8859-1");
         BufferedReader br = new BufferedReader(r);
         String linha = br.readLine();
         linha = br.readLine();
         
-        int i = 0, numEleitos = 0, numVotos = 0;
+        int i = 0, numEleitos = 0;
         String palavra = "", nomeUrnaCand = "", siglaPart="", dataNasc = "", nomePart = "";   
-        int num = 0, numCand=0, numPart=0, numFed=0, gen=0, eleito=0, numUrna = 0;
+        int num = 0, numCand=0, numPart=0, numFed=0, gen=0, eleito=0, numUrna = 0, codigo = 0;
 
-        HashMap <Integer,Partido> partidos = new HashMap<>();  
         Votacao eleicao = new Votacao();
         while(linha!=null) {
             
@@ -46,25 +43,31 @@ public class Main {
                     palavra = scanner.next();
                     palavra = palavra.substring(1,palavra.length()-1);
 
-                    if(!palavra.equals(code) && i ==11) break; 
+                    if(i ==11){
+        
+                        codigo = Integer.parseInt(palavra);
+                        
+                    } 
                     if(i== 18) nomeUrnaCand = palavra;
                     if(i==26) siglaPart = palavra;
-                    if(i==27) nomePart = palavra; 
+                    if(i==27){ 
+                        nomePart = palavra;
+                        Partido p = null;
+                        if(!eleicao.contemPartido(numUrna)){
+                            p = new Partido(nomePart,siglaPart, numPart);
+                            eleicao.atualizaVotacaoPartido(p, numPart);
+                        }
+                        if(codigo!=numCod) break;
+                    }
                     if(i==36) dataNasc =palavra;
                     
                 }
                 
                 if(i==48 && num == -1) break;
                 else if(i==48){
-                    Partido p;
-                    if(partidos.containsKey(numPart)) p = partidos.get(numPart);
-                    else{
-                        p = new Partido(nomePart,siglaPart, numPart);
-                        partidos.put(numPart, p);
-                    }
-                    Candidato c = new Candidato(nomeUrnaCand,numCand, numFed, eleito, gen, null, p);
-                    //Candidato c = new Candidato(nomeUrnaCand,numCand, numFed, eleito, gen, dataNasc, p);
-                    eleicao.atualizaVotacao(c, p, numPart);
+                    Partido p = eleicao.getPartidoKey(numPart);
+                    Candidato c = new Candidato(nomeUrnaCand,numCand, numFed, eleito, gen, dataNasc, p);
+                    eleicao.atualizaVotacaoCandidato(c);
                     
                 }        
                 i+=1;
@@ -103,8 +106,12 @@ public class Main {
 
                     palavra = scanner.next();
                     palavra = palavra.substring(1,palavra.length()-1);
-                    if(!palavra.equals(code) && i ==11) break; 
-                    //if(i==8 && flag==0) eleicao.setDataEleicao(palavra); flag=1;
+                    if(i ==11){
+                        num = Integer.parseInt(palavra);
+                        if(numCod != num)break;
+                    } 
+                    if(i==8 && flag==0){
+                        eleicao.setDataEleicao(palavra); flag=1;}
                     if(i == 20) nomePart = palavra; 
                     
                 }
@@ -121,6 +128,7 @@ public class Main {
         eleicao.eleitos();
         eleicao.contagemFinal();
         eleicao.eleitosGenero();
+        eleicao.eleitosIdade();
         
         }         
         

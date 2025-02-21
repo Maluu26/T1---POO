@@ -1,16 +1,10 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Locale;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.math.*;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class Votacao {
@@ -18,7 +12,7 @@ public class Votacao {
     private Map <Integer,Partido> partidos;
     private LinkedList<Candidato> candidatosTotais;
     private LinkedList<Candidato> candidatosEleitos;
-
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     public Votacao(){
         this.dataEleicao = null;
         this.partidos = new HashMap<>();
@@ -26,13 +20,16 @@ public class Votacao {
         this.candidatosEleitos = new LinkedList<>();
     }
 
-    public void setDataEleicao(LocalDate dataEleicao) {
-        this.dataEleicao = dataEleicao;
-    }
+    public void setDataEleicao(String data) {
 
-    public void atualizaVotacao(Candidato c, Partido p, int chaveP){
-        this.candidatosTotais.add(c);
+        this.dataEleicao = LocalDate.parse(data,formatter);
+        System.out.println(this.dataEleicao);
+    }
+    public void atualizaVotacaoPartido(Partido p, int chaveP){
         this.partidos.putIfAbsent(chaveP, p);
+    }
+    public void atualizaVotacaoCandidato(Candidato c){
+        this.candidatosTotais.add(c);
     }
     public void apuraVotos(int numUrna, int quantVotos, String nomePart){
        
@@ -40,12 +37,6 @@ public class Votacao {
             Partido p = this.partidos.get(numUrna);
             if(p!=null){
                 p.incrementaVotosLegenda(quantVotos);
-            }
-            if(p==null){
-                String sigla = procuraPorSigla(numUrna, nomePart);
-                p = new Partido(nomePart,sigla,numUrna);
-                p.incrementaVotosLegenda(quantVotos);
-                this.partidos.put(numUrna, p);
             }
             
         }
@@ -58,85 +49,12 @@ public class Votacao {
             }
         }
     }
-
-    public String procuraPorSigla(int numUrna, String nomePart){
-        try{
-            FileInputStream fin = new FileInputStream("candidatos.csv");
-            InputStreamReader r = new InputStreamReader(fin, "ISO-8859-1");
-            BufferedReader br = new BufferedReader(r);
-            String linha = br.readLine();
-            linha = br.readLine();
-            int num = 0, flag = 0;
-            String palavra = "";
-
-            while(linha!=null){
-               Scanner scanner = new Scanner(linha);
-               scanner.useDelimiter(";");
-                
-                for(int j = 0;j<30;j++) {
-                    
-                    if(j == 25){
-                        num = scanner.nextInt();
-                        if(num!=numUrna) break;
-                        else{
-                            palavra = scanner.next();
-                            palavra =  palavra.substring(1,palavra.length()-1);
-                            flag = 1;
-                            break;
-                            
-                        }
-                    }
-                    if(scanner.hasNext()) scanner.next();    
-                }
-                
-                 scanner.close();
-                 linha = br.readLine();
-                 if(flag == 1) break;
-            }
-            br.close();
-            return palavra;
-        }
-        catch(IOException e){
-            System.err.println("erro");
-            return null;
-        }
-       
+    public Partido getPartidoKey(int key){
+        return this.partidos.get(key);
     }
-    
-
-    /*public void calculaIdades(){
-        int anoEl = dataEleicao.getYear();
-        int mesEl = dataEleicao.getMonthValue();
-        int diaEl = dataEleicao.getDayOfMonth();
-
-        for(Candidato c: candidatosEleitos){
-            int anoC = c.getNasc().getYear();
-            int mesC = c.getNasc().getMonthValue();
-            int diaC = c.getNasc().getDayOfMonth();
-            
-            if(mesC == mesEl){
-                if(diaC < diaEl){
-                    c.setIdade(anoEl - anoC - 1);
-                }
-                else {
-                    c.setIdade(anoEl - anoC);
-                }
-            }
-            else {
-                if(mesC > mesEl){
-                    c.setIdade(anoEl - anoC - 1);
-                }
-                else {
-                    c.setIdade(anoEl - anoC);
-                }
-            }
-        }
-
-    }*/
-    
-    /*MARCELA: tem que ver se essa função vai funcionar direitinho. Se não, a gente usa a de cima mesmo; */
+        
     private void calculaIdades(){
-        for (Candidato c : candidatosEleitos) {
+        for (Candidato c : candidatosTotais) {
             int idade = (int) ChronoUnit.YEARS.between(c.getNasc(), dataEleicao);
             c.setIdade(idade);
         }
@@ -145,7 +63,9 @@ public class Votacao {
     public void encontraEleitos(){
         for(Candidato c: candidatosTotais){
             if(c.foiEleito()) candidatosEleitos.add(c);
-        }
+           
+        } 
+       
     }
 
     public int getQtdEleitos(){
@@ -188,7 +108,9 @@ public void contagemFinal(){
         }
 
     }
-
+    public boolean contemPartido(int key){
+        return (this.partidos.containsKey(key));
+    }
     public void eleitosGenero(){
         int fem=0, masc = 0;
 
@@ -214,14 +136,28 @@ public void contagemFinal(){
 
     public void eleitosIdade(){
         int faixa20=0, faixa30=0, faixa40=0, faixa50=0, faixa60=0;
-
         if(this.getQtdEleitos() == 0) this.eleitos();
         this.calculaIdades();
-        //ordena por idade
-        //incrementa as variáveis de acordo com a faixa etária
-        //calcula e iimprime junto com as porcentagens
+        for(Candidato c: this.candidatosEleitos){
+            int idade = c.getIdade();
+            if(idade<30) faixa20++;
+            else if(idade>=30 && idade<40) faixa30++;
+            else if(idade>=40 && idade<50) faixa40++;
+            else if(idade>=50 && idade<60) faixa50++;
+            else faixa60++;
+        }
+        double p20 = ((double)(faixa20)/(double)(candidatosEleitos.size()))*100;
+        double p30 = ((double)(faixa30)/(double)(candidatosEleitos.size()))*100;
+        double p40 = ((double)(faixa40)/(double)(candidatosEleitos.size()))*100;
+        double p50 = ((double)(faixa50)/(double)(candidatosEleitos.size()))*100;
+        double p60 = ((double)(faixa60)/(double)(candidatosEleitos.size()))*100;
 
-        //System.out.println();
+        System.out.println("Idade < 30:  (" +p20 +"%)");
+        System.out.println("Idade < 40:  (" +p30 +"%)");
+        System.out.println("Idade < 50:  (" +p40 +"%)");
+        System.out.println("Idade < 60:  (" +p50 +"%)");
+        System.out.println("Idade: 0 (" +p60 +"%)");
+        
     }
     
 }

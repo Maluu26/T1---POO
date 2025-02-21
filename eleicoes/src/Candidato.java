@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Candidato{
     
@@ -6,17 +7,19 @@ public class Candidato{
     private int numUrna, numFederacao, foiEleito, gen, numVotos, idade;
     private LocalDate nasc;
     private Partido partido;
-    
-    
+   
     public Candidato(String nome, int numUrna, int numFederacao, int foiEleito, int gen,
-         LocalDate nasc, Partido partido) {
+        String nasc, Partido partido) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(nasc, formatter);
         this.nome = nome;
         this.numUrna = numUrna;
         this.numFederacao = numFederacao;
         this.foiEleito = foiEleito;
         this.gen = gen;
         this.numVotos = 0;
-        this.nasc = nasc;
+        this.nasc = date;
         this.partido = partido;
         this.idade = 0;
     }
