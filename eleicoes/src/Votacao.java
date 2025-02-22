@@ -14,6 +14,7 @@ public class Votacao {
     private LinkedList<Candidato> candidatosTotais;
     private LinkedList<Candidato> candidatosEleitos;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    
     public Votacao(){
         this.dataEleicao = null;
         this.partidos = new HashMap<>();
@@ -82,8 +83,8 @@ public class Votacao {
         return votosNominais;
     }
     public int foiMaisVotado(Candidato c){
-        LinkedList <Candidato> todos = this.getCandidatosTotais();
-        Collections.sort(todos, new CandidatoComparator());
+        LinkedList <Candidato> todos = this.getCandidatosTotaisOrdenados();
+        
         int i = 1;
         for(Candidato cand: todos){
             if(cand == c && i<=getQtdEleitos()) return -1;
@@ -92,6 +93,7 @@ public class Votacao {
         }
         return i;
     }
+    
     public int getTotalVotosLegenda(){
         int votosLegenda = 0;;
         for(Partido p: this.partidos.values()){
@@ -108,18 +110,33 @@ public class Votacao {
         return new LinkedList<>(this.candidatosTotais);
     }
   
- 
+    public LinkedList<Candidato> getCandidatosTotaisOrdenados(){
+        LinkedList<Candidato> ordenados = new LinkedList<>(this.candidatosTotais);
+        Collections.sort(ordenados, new CandidatoComparator());
+        return ordenados;
+    }
+
     public LinkedList<Candidato> getCandidatosEleitos(){
         if (this.getQtdEleitos() == 0) {
             this.encontraEleitos();
         }
-        Collections.sort(this.candidatosEleitos, new CandidatoComparator());
         return new LinkedList<>(this.candidatosEleitos);
     }
+
+    public LinkedList<Candidato> getCandidatosEleitosOrdenados(){
+        if (this.getQtdEleitos() == 0) {
+            this.encontraEleitos();
+        }
+        LinkedList<Candidato> ordenados = new LinkedList<>(this.candidatosEleitos);
+        Collections.sort(ordenados, new CandidatoComparator());
+        return ordenados;
+    }
+    
     public HashMap<Integer,Partido> getPartidos(){
 
         return new HashMap<>(this.partidos);
     }
+    
     public boolean foiEleito(Candidato c){
         for(Candidato cEleito: this.candidatosEleitos){
             if(c==cEleito) return true;

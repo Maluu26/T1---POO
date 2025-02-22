@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -72,22 +73,12 @@ public class Partido {
     public LinkedList<Candidato> getCandidatos(){
         return new LinkedList<>(this.candidatos);
     }
-   
-    @Override
-    public String toString() {
-        String texto = "";
-        texto += this.nome + " - " + this.numPartido + ", " + this.getQtdVotosTotais() + " votos (" +
-        this.getQtdVotosNominais() + "nominais e " + this.getQtdVotosLegenda() + "de legenda), ";
-        
-        int qtdEleitos = this.getQtdEleitosNoPartido();
-        if(qtdEleitos < 2){
-            texto += "candidato eleito";
-        }
-        else {
-            texto += "candidatos eleitos";
-        }
 
-        return texto;
+    public LinkedList<Candidato> getCandidatosOrdenados(){
+        LinkedList<Candidato> ordenados = new LinkedList<>(this.candidatos);
+        Collections.sort(ordenados, new CandidatoComparator());
+        return ordenados;
     }
+   
 
 }

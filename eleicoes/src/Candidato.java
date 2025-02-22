@@ -24,11 +24,9 @@ public class Candidato{
         this.idade = 0;
     }
 
-
     public String getNome() {
         return nome;
     }
-
 
     public int getNumUrna() {
         return numUrna;
@@ -38,15 +36,14 @@ public class Candidato{
         return partido;
     }
 
-
     public int getNumFederacao() {
         return numFederacao;
     }
 
-
     public int getFoiEleito() {
         return foiEleito;
     }
+
     public boolean foiEleito() {
         if(this.foiEleito == 2 || this.foiEleito == 3)return true;
         return false;
@@ -56,11 +53,9 @@ public class Candidato{
         return gen;
     }
 
-
     public int getNumVotos() {
         return numVotos;
     }
-
 
     public LocalDate getNasc() {
         return nasc;
@@ -84,7 +79,6 @@ public class Candidato{
         if(this.numFederacao != -1) texto = "*";
         texto+= this.nome + " (" + this.partido.getSigla() + ", " + this.numVotos + " votos)";
         return texto;
-    }
-    
+    } 
 
 }

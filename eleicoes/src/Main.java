@@ -123,21 +123,21 @@ public class Main {
             }     
             scanner.close();
             linhaVot = brVot.readLine();
-            }
-          brVot.close();
-          vot.close();
+        }
+        brVot.close();
+        vot.close();
     
-        //tem um metodo pra pegar a qtd de eleitos em Votacao, ent acho q essa variavel nem vai precisar
-        System.out.println("Número de vagas: " + numEleitos + "\n");
+        System.out.println("Número de vagas: " + numEleitos);
         Relatorio relatorio = new Relatorio(eleicao);
         relatorio.eleitos();   
         relatorio.maisVotados(numEleitos); 
+        relatorio.candidatosQueSeriamEleitos();
+        relatorio.candidatosQueNaoSeriamEleitos();
+        relatorio.partidosMaisVotados();
+        relatorio.candidatosMaisEMenosVotados();
         relatorio.eleitosIdade();
         relatorio.eleitosGenero();
         relatorio.contagemFinal();
-        relatorio.partidosMaisVotados();
-        relatorio.candidatosQueSeriamEleitos();
-        relatorio.candidatosQueNaoSeriamEleitos();
-        }         
+    }         
         
-    }
+}
