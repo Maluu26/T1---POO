@@ -21,6 +21,7 @@ public class Main {
         int num = 0, numCand=0, numPart=0, numFed=0, gen=0, eleito=0, numUrna = 0, codigo = 0;
 
         Votacao eleicao = new Votacao();
+        eleicao.setDataEleicao("06/10/2024");
         while(linha!=null) {
             
             Scanner scanner = new Scanner(linha).useDelimiter(";");    
@@ -89,7 +90,6 @@ public class Main {
         String linhaVot = brVot.readLine();
         linhaVot = brVot.readLine();
         i = 0;
-        int flag=0;
         
         while(linhaVot!=null) {
             
@@ -114,8 +114,6 @@ public class Main {
                         num = Integer.parseInt(palavra);
                         if(numCod != num)break;
                     } 
-                    if(i==8 && flag==0){
-                        eleicao.setDataEleicao(palavra); flag=1;}
                     if(i == 20) nomePart = palavra; 
                     
                 }

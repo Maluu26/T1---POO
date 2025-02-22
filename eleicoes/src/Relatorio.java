@@ -5,8 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import javax.print.DocFlavor.STRING;
-
 public class Relatorio {
     private Votacao eleicao;
     NumberFormat brFormat = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
@@ -62,7 +60,6 @@ public class Relatorio {
 
     public void eleitosIdade(){
         int faixa20=0, faixa30=0, faixa40=0, faixa50=0, faixa60=0;
-        eleicao.calculaIdades();
         double totalEleitos = eleicao.getQtdEleitos();
         
         for(Candidato c: eleicao.getCandidatosEleitos()){
@@ -155,7 +152,7 @@ public class Relatorio {
             int num = eleicao.foiMaisVotado(c);
             if(num != -1) System.out.println(num + " - "+ c);
             //MARCELA: o que significa esse 13???
-            if(i==13) break;
+            if(i==eleicao.getQtdEleitos()) break;
             i++;
         }
     }

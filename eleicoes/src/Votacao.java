@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Locale;
-import java.text.NumberFormat;
 
 public class Votacao {
     private LocalDate dataEleicao;
@@ -33,6 +31,8 @@ public class Votacao {
     
     public void atualizaVotacaoCandidato(Candidato c){
         this.candidatosTotais.add(c);
+        int idade = (int) ChronoUnit.YEARS.between(c.getNasc(), dataEleicao);
+        c.setIdade(idade);       
     }
     
     public void apuraVotos(int numUrna, int quantVotos, String nomePart){
@@ -56,13 +56,6 @@ public class Votacao {
     
     public Partido getPartidoKey(int key){
         return this.partidos.get(key);
-    }
-        
-    public void calculaIdades(){
-        for (Candidato c : candidatosTotais) {
-            int idade = (int) ChronoUnit.YEARS.between(c.getNasc(), dataEleicao);
-            c.setIdade(idade);
-        }
     }
 
     public void encontraEleitos(){
