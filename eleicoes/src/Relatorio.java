@@ -17,7 +17,9 @@ public class Relatorio {
         nf.setMinimumFractionDigits(2);   
         nf.setMaximumFractionDigits(2);
     }
-
+    public void numEleitosRelatorio(){
+        System.out.println("Número de vagas: " + eleicao.getQtdEleitos());
+    }
     public void contagemFinal(){
         int votosNominais = eleicao.getTotalVotosNominais();
         int votosLegenda = eleicao.getTotalVotosLegenda();
@@ -32,7 +34,7 @@ public class Relatorio {
 
     public void eleitos(){
         System.out.println("\nVereadores eleitos:");
-        List<Candidato> eleitos = eleicao.getCandidatosEleitosOrdenados();
+        List<Candidato> eleitos = eleicao.getCandidatosEleitos();//getCandidatosEleitosOrdenados();
         
         int i=1;
         for(Candidato c : eleitos){
@@ -85,9 +87,9 @@ public class Relatorio {
         
     }
 
-    public void maisVotados(int vagas){
-        List<Candidato> candidatos = eleicao.getCandidatosTotaisOrdenados();
-        
+    public void maisVotados(){
+        List<Candidato> candidatos = eleicao.getCandidatosTotais();
+        int vagas = eleicao.getQtdEleitos();
         int i=1;
         System.out.println("\nCandidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):");
         for(Candidato c : candidatos){
@@ -128,7 +130,7 @@ public class Relatorio {
     }
 
     public void candidatosQueSeriamEleitos(){
-        LinkedList <Candidato> todos = this.eleicao.getCandidatosTotaisOrdenados();
+        LinkedList <Candidato> todos = eleicao.getCandidatosTotais();//this.eleicao.getCandidatosTotaisOrdenados();
         
         int i = 1;
         System.out.println("\nTeriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n" + //
@@ -143,7 +145,7 @@ public class Relatorio {
     }
 
     public void candidatosQueNaoSeriamEleitos(){
-        LinkedList <Candidato> eleitos = this.eleicao.getCandidatosEleitosOrdenados();
+        LinkedList <Candidato> eleitos = this.eleicao.getCandidatosEleitos();//getCandidatosEleitosOrdenados();
         int i = 1;
         System.out.println("\nEleitos, que se beneficiaram do sistema proporcional:\n" + //
                     "(com sua posição no ranking de mais votados)");

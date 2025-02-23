@@ -16,9 +16,8 @@ public class Main {
         String linha = br.readLine();
         linha = br.readLine();
         
-        int i = 0, numEleitos = 0;
         String palavra = "", nomeUrnaCand = "", siglaPart="", dataNasc = "", nomePart = "";   
-        int num = 0, numCand=0, numPart=0, numFed=0, gen=0, eleito=0, numUrna = 0, codigo = 0;
+        int i = 0,num = 0, numCand=0, numPart=0, numFed=0, gen=0, eleito=0, numUrna = 0, codigo = 0;
 
         Votacao eleicao = new Votacao();
         eleicao.setDataEleicao("06/10/2024");
@@ -35,10 +34,8 @@ public class Main {
                     if(i==25)numPart = num;
                     if(i==28) numFed = num;
                     if(i==38)gen = num;
-                    else if(i==48){
-                        eleito = num;
-                        if(num == 3 || num == 2) numEleitos++;
-                    }
+                    else if(i==48) eleito = num;
+
 
                 }else{
                     palavra = scanner.next();
@@ -90,7 +87,7 @@ public class Main {
         String linhaVot = brVot.readLine();
         linhaVot = brVot.readLine();
         i = 0;
-        
+
         while(linhaVot!=null) {
             
             Scanner scanner = new Scanner(linhaVot).useDelimiter(";");    
@@ -125,10 +122,11 @@ public class Main {
         brVot.close();
         vot.close();
     
-        System.out.println("Número de vagas: " + numEleitos);
+        eleicao.ordenaCandidatos();
         Relatorio relatorio = new Relatorio(eleicao);
+        relatorio.numEleitosRelatorio();
         relatorio.eleitos();   
-        relatorio.maisVotados(numEleitos); 
+        relatorio.maisVotados(); 
         relatorio.candidatosQueSeriamEleitos();
         relatorio.candidatosQueNaoSeriamEleitos();
         relatorio.partidosMaisVotados();

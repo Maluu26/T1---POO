@@ -31,6 +31,7 @@ public class Votacao {
     
     public void atualizaVotacaoCandidato(Candidato c){
         this.candidatosTotais.add(c);
+        if(c.foiEleito()) this.candidatosEleitos.add(c);
         int idade = (int) ChronoUnit.YEARS.between(c.getNasc(), dataEleicao);
         c.setIdade(idade);       
     }
@@ -65,6 +66,7 @@ public class Votacao {
     }
 
     public int getQtdEleitos(){
+        //if(this.candidatosEleitos.size()==0) this.encontraEleitos();
         return this.candidatosEleitos.size();
     }
 
@@ -76,7 +78,7 @@ public class Votacao {
         return votosNominais;
     }
     public int foiMaisVotado(Candidato c){
-        LinkedList <Candidato> todos = this.getCandidatosTotaisOrdenados();
+        LinkedList <Candidato> todos = this.candidatosTotais;//this.getCandidatosTotaisOrdenados();
         
         int i = 1;
         for(Candidato cand: todos){
@@ -110,16 +112,16 @@ public class Votacao {
     }
 
     public LinkedList<Candidato> getCandidatosEleitos(){
-        if (this.getQtdEleitos() == 0) {
+        /*if (this.getQtdEleitos() == 0) {
             this.encontraEleitos();
-        }
+        }*/
         return new LinkedList<>(this.candidatosEleitos);
     }
 
     public LinkedList<Candidato> getCandidatosEleitosOrdenados(){
-        if (this.getQtdEleitos() == 0) {
+        /*if (this.getQtdEleitos() == 0) {
             this.encontraEleitos();
-        }
+        }*/
         LinkedList<Candidato> ordenados = new LinkedList<>(this.candidatosEleitos);
         Collections.sort(ordenados, new CandidatoComparator());
         return ordenados;
@@ -135,5 +137,9 @@ public class Votacao {
             if(c==cEleito) return true;
         }
         return false;
+    }
+    public void ordenaCandidatos(){
+        Collections.sort(this.candidatosTotais, new CandidatoComparator());
+        Collections.sort(this.candidatosEleitos, new CandidatoComparator());
     }
 }
