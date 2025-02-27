@@ -38,7 +38,7 @@ public class Relatorio {
         
         int i=1;
         for(Candidato c : eleitos){
-            System.out.println(i + " - " + c);
+            System.out.println(i + " - " +this.imprimeCandidato(c));
             i++;
         }
     }
@@ -93,7 +93,7 @@ public class Relatorio {
         int i=1;
         System.out.println("\nCandidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):");
         for(Candidato c : candidatos){
-            System.out.println(i + " - " + c);
+            System.out.println(i + " - " + this.imprimeCandidato(c));
             if(i == vagas) break;
             i++;
         }
@@ -137,7 +137,7 @@ public class Relatorio {
                         "(com sua posição no ranking de mais votados)");
         for(Candidato c: todos){
             if(!eleicao.foiEleito(c)){
-                System.out.println(i + " - "+ c);
+                System.out.println(i + " - "+ this.imprimeCandidato(c) );
             } 
             if(i==eleicao.getQtdEleitos()) break;
             i++;
@@ -150,10 +150,8 @@ public class Relatorio {
         System.out.println("\nEleitos, que se beneficiaram do sistema proporcional:\n" + //
                     "(com sua posição no ranking de mais votados)");
         for(Candidato c: eleitos){
-            //MARCELA: era pra num ser 19 no TATU DO BEM, mas ta saindo 18
             int num = eleicao.foiMaisVotado(c);
-            if(num != -1) System.out.println(num + " - "+ c);
-            //MARCELA: o que significa esse 13???
+            if(num != -1) System.out.println(num + " - "+ this.imprimeCandidato(c));
             if(i==eleicao.getQtdEleitos()) break;
             i++;
         }
@@ -196,6 +194,26 @@ public class Relatorio {
         }
         
         
+    }
+    
+    public String imprimeCandidato(Candidato c){
+        String texto = "";
+        if(c.getNumFederacao() != -1) texto = "*";
+        int votos = c.getNumVotos();
+        texto+= c.getNome() + " (" + c.getPartido().getSigla() + ", " + brFormat.format(votos) + " votos)";
+        return texto;
+    } 
+    public void geraTodosOsRelatorios(){
+        this.numEleitosRelatorio();
+        this.eleitos();   
+        this.maisVotados(); 
+        this.candidatosQueSeriamEleitos();
+        this.candidatosQueNaoSeriamEleitos();
+        this.partidosMaisVotados();
+        this.candidatosMaisEMenosVotados();
+        this.eleitosIdade();
+        this.eleitosGenero();
+        this.contagemFinal();
     }
 }
 

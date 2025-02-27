@@ -1,10 +1,10 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Map;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class Votacao {
     private LocalDate dataEleicao;
@@ -71,7 +71,7 @@ public class Votacao {
     }
 
     public int getTotalVotosNominais(){
-        int votosNominais = 0;;
+        int votosNominais = 0;
         for(Candidato c: this.candidatosTotais){
             votosNominais += c.getNumVotos();
         }
@@ -90,7 +90,7 @@ public class Votacao {
     }
     
     public int getTotalVotosLegenda(){
-        int votosLegenda = 0;;
+        int votosLegenda = 0;
         for(Partido p: this.partidos.values()){
             votosLegenda += p.getQtdVotosLegenda();
         }

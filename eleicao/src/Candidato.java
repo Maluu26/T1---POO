@@ -1,7 +1,5 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.text.NumberFormat;
-import java.util.Locale;
 public class Candidato{
     
     private String nome;
@@ -46,8 +44,8 @@ public class Candidato{
     }
 
     public boolean foiEleito() {
-        if(this.foiEleito == 2 || this.foiEleito == 3)return true;
-        return false;
+        return (this.foiEleito == 2 || this.foiEleito == 3);
+       
     }
 
     public int getGen() {
@@ -74,14 +72,5 @@ public class Candidato{
         this.numVotos += qtdVotos;
     }
 
-    @Override
-    public String toString() {
-        String texto = "";
-        NumberFormat brFormat = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
-        if(this.numFederacao != -1) texto = "*";
-        int votos = this.numVotos;
-        texto+= this.nome + " (" + this.partido.getSigla() + ", " + brFormat.format(votos) + " votos)";
-        return texto;
-    } 
 
 }
