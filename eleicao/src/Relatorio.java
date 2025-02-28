@@ -34,7 +34,7 @@ public class Relatorio {
 
     public void eleitos(){
         System.out.println("\nVereadores eleitos:");
-        List<Candidato> eleitos = eleicao.getCandidatosEleitos();//getCandidatosEleitosOrdenados();
+        List<Candidato> eleitos = eleicao.getCandidatosEleitos();
         
         int i=1;
         for(Candidato c : eleitos){
@@ -130,10 +130,10 @@ public class Relatorio {
     }
 
     public void candidatosQueSeriamEleitos(){
-        LinkedList <Candidato> todos = eleicao.getCandidatosTotais();//this.eleicao.getCandidatosTotaisOrdenados();
+        LinkedList <Candidato> todos = eleicao.getCandidatosTotais();
         
         int i = 1;
-        System.out.println("\nTeriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n" + //
+        System.out.println("\nTeriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n" + 
                         "(com sua posição no ranking de mais votados)");
         for(Candidato c: todos){
             if(!eleicao.foiEleito(c)){
@@ -145,9 +145,9 @@ public class Relatorio {
     }
 
     public void candidatosQueNaoSeriamEleitos(){
-        LinkedList <Candidato> eleitos = this.eleicao.getCandidatosEleitos();//getCandidatosEleitosOrdenados();
+        LinkedList <Candidato> eleitos = this.eleicao.getCandidatosEleitos();
         int i = 1;
-        System.out.println("\nEleitos, que se beneficiaram do sistema proporcional:\n" + //
+        System.out.println("\nEleitos, que se beneficiaram do sistema proporcional:\n" + 
                     "(com sua posição no ranking de mais votados)");
         for(Candidato c: eleitos){
             int num = eleicao.foiMaisVotado(c);

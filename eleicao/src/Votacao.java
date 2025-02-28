@@ -66,7 +66,6 @@ public class Votacao {
     }
 
     public int getQtdEleitos(){
-        //if(this.candidatosEleitos.size()==0) this.encontraEleitos();
         return this.candidatosEleitos.size();
     }
 
@@ -78,7 +77,7 @@ public class Votacao {
         return votosNominais;
     }
     public int foiMaisVotado(Candidato c){
-        LinkedList <Candidato> todos = this.candidatosTotais;//this.getCandidatosTotaisOrdenados();
+        LinkedList <Candidato> todos = this.candidatosTotais;
         
         int i = 1;
         for(Candidato cand: todos){
@@ -104,27 +103,9 @@ public class Votacao {
     public LinkedList<Candidato> getCandidatosTotais(){
         return new LinkedList<>(this.candidatosTotais);
     }
-  
-    public LinkedList<Candidato> getCandidatosTotaisOrdenados(){
-        LinkedList<Candidato> ordenados = new LinkedList<>(this.candidatosTotais);
-        Collections.sort(ordenados, new CandidatoComparator());
-        return ordenados;
-    }
 
     public LinkedList<Candidato> getCandidatosEleitos(){
-        /*if (this.getQtdEleitos() == 0) {
-            this.encontraEleitos();
-        }*/
         return new LinkedList<>(this.candidatosEleitos);
-    }
-
-    public LinkedList<Candidato> getCandidatosEleitosOrdenados(){
-        /*if (this.getQtdEleitos() == 0) {
-            this.encontraEleitos();
-        }*/
-        LinkedList<Candidato> ordenados = new LinkedList<>(this.candidatosEleitos);
-        Collections.sort(ordenados, new CandidatoComparator());
-        return ordenados;
     }
     
     public HashMap<Integer,Partido> getPartidos(){
