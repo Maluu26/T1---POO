@@ -4,20 +4,22 @@
 #include <iostream>
 #include <string>
 
-#include "Partido.hpp"
+//#include "Partido.hpp"
 
 using namespace std;
 
 class Candidato
 {
-    //MARCELA: existe uma forma melhor de aramzenar a data? Talvez separadamente como inteiros
-    string nome, data;
+    //MARCELA: na hora da leitura e da criação criar uma função pra separar a data como inteiros,
+    //ou é possível já ler a data em formato de inteiros?
+    string nome;
     int numUrna, numFederacao, foiEleito, gen, numVotos, idade;
-    Partido &partido;
+    int numPartido, diaNasc, mesNasc, anoNasc;
+    //Partido &partido;
 public:
-    //MARCELA: partido precisa de const?
+    //MARCELA: vai transformar a data em inteiros, caso ela seja lida como string
     Candidato(const string &nome, const int &numUrna, const int &numFederacao, const int &foiEleito, const int &gen,
-        const string &nasc, Partido &partido);
+        const string &nasc, const int &numPartido);
     void setIdade(const int &idade);
     //MARCELA: precisa do & nesses getters?
     const string &getNome() const;
@@ -28,8 +30,10 @@ public:
     const bool &verificaSeFoiEleito() const;
     const int &getNumFederacao() const;
     const int &getNumUrna() const;
-    Partido &getPartido() const;
-    //const string &getNasc() const;
+    const int &getNumPartidoCandidato() const;
+    const int &getDiaNasc() const;
+    const int &getMesNasc() const;
+    const int &getAnoNasc() const;
     void incrementaVotosCandidato(const int &qtdVotos);
 };
 

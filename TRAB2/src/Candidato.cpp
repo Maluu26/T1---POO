@@ -1,16 +1,19 @@
 #include "Candidato.hpp"
 
 Candidato::Candidato(const string &nome, const int &numUrna, const int &numFederacao, const int &foiEleito, const int &gen,
-    const string &nasc, Partido &partido) : partido(partido){
+    const string &nasc, const int &numPartido)  {
         this->nome = nome;
         this->numUrna = numUrna;
         this->numFederacao = numFederacao;
         this->foiEleito = foiEleito;
         this->gen = gen;
         this->numVotos = 0;
-        //this->nasc = nasc;
-        //this->partido = partido;
+        this->numPartido = numPartido;
         this->idade = 0;
+        //aqui separa a data em inteiros caso seja lida como string
+        /*this->diaNasc = +++;
+        this->mesNasc = +++;
+        this->anoNasc = +++;*/
 }
 
 void Candidato::setIdade(const int &idade){
@@ -49,12 +52,22 @@ const int &Candidato::getNumUrna() const{
     return numUrna;
 }
 
-Partido &Candidato::getPartido() const{
-    return this->partido;
+const int &Candidato::getNumPartidoCandidato() const{
+    return numPartido;
+}
+
+const int &Candidato::getDiaNasc() const{
+    return diaNasc;
+}
+
+const int &Candidato::getMesNasc() const{
+    return mesNasc;
+}
+
+const int &Candidato::getAnoNasc() const{
+    return anoNasc;
 }
 
 void Candidato::incrementaVotosCandidato(const int &qtdVotos){
-    //MARCELA: é a mesma coisa né?
-    //this->numVotos += qtdVotos;
-    numVotos += qtdVotos;
+    this->numVotos += qtdVotos;
 }
