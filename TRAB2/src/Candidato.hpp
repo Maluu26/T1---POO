@@ -21,7 +21,7 @@ public:
     Candidato(const string &nome, const int &numUrna, const int &numFederacao, const int &foiEleito, const int &gen,
         const string &nasc, const int &numPartido);
     void setIdade(const int &idade);
-    //MARCELA: precisa do & nesses getters?
+    
     const string &getNome() const;
     const int &getIdade() const;
     const int &getNumVotos() const;
