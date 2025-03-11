@@ -4,17 +4,16 @@
 #include <iostream>
 #include <string>
 #include <list>
-#include <bits/stdc++.h>
-
-#include "Candidato.hpp"
 
 using namespace std;
+
+class Candidato;
 
 class Partido
 {
     string nome, sigla;
     int numPartido, qtdVotosLegenda;
-    list<Candidato> candidatos;
+    list<Candidato*> candidatos;
     
 public:
     Partido(const string &nome, const string &sigla, const int &numPartido);
@@ -27,9 +26,9 @@ public:
     int getQtdVotosTotais() const;
     int getQtdVotosNominais() const;
     int getQtdEleitosNoPartido() const;
-    void adicionaCandidato(Candidato &c);
-    list<Candidato> getCandidatos();
-    list<Candidato> getCandidatosOrdenados();
+    void adicionaCandidato(Candidato *c);
+    list<Candidato*> getCandidatos();
+    list<Candidato*> getCandidatosOrdenados();
 
 };
 

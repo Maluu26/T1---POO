@@ -1,23 +1,29 @@
 #include "Candidato.hpp"
+#include "Partido.hpp"
 
 Candidato::Candidato(const string &nome, const int &numUrna, const int &numFederacao, const int &foiEleito, const int &gen,
-    const string &nasc, const int &numPartido)  {
+    const string &nasc, Partido &partido) : partido(partido) {
         this->nome = nome;
         this->numUrna = numUrna;
         this->numFederacao = numFederacao;
         this->foiEleito = foiEleito;
         this->gen = gen;
         this->numVotos = 0;
-        this->numPartido = numPartido;
         this->idade = 0;
-        //aqui separa a data em inteiros caso seja lida como string
-        /*this->diaNasc = +++;
-        this->mesNasc = +++;
-        this->anoNasc = +++;*/
+        sscanf(nasc.c_str(), "%d/%d/%d", &diaNasc, &mesNasc, &anoNasc);
 }
 
-void Candidato::setIdade(const int &idade){
-    this->idade = idade;
+void Candidato::calculaIdade(const string &dataEleicao) {
+    int dia, mes, ano;
+    
+    sscanf(dataEleicao.c_str(), "%d/%d/%d", &dia, &mes, &ano);
+    int anos = ano - this->getAnoNasc();
+    
+    if (mes < mesNasc || (mes == mesNasc && dia < diaNasc)) {
+        anos--;
+    }
+    
+    this->idade = anos;
 }
 
 const string &Candidato::getNome() const{
@@ -27,6 +33,7 @@ const string &Candidato::getNome() const{
 const int &Candidato::getIdade() const{
     return idade;
 }
+
 
 const int &Candidato::getNumVotos() const{
     return numVotos;
@@ -40,7 +47,7 @@ const int &Candidato::getFoiEleito() const{
     return foiEleito;
 }
 
-const bool &Candidato::verificaSeFoiEleito() const{
+bool Candidato::verificaSeFoiEleito() const{
     return (this->foiEleito == 2 || this->foiEleito == 3);
 }
 
@@ -52,8 +59,8 @@ const int &Candidato::getNumUrna() const{
     return numUrna;
 }
 
-const int &Candidato::getNumPartidoCandidato() const{
-    return numPartido;
+Partido &Candidato::getPartido() const{
+    return this->partido;
 }
 
 const int &Candidato::getDiaNasc() const{
@@ -70,4 +77,16 @@ const int &Candidato::getAnoNasc() const{
 
 void Candidato::incrementaVotosCandidato(const int &qtdVotos){
     this->numVotos += qtdVotos;
+}
+
+const int Candidato::comparaNasc(const Candidato *c) const{
+    int ano1 = this->getAnoNasc(), mes1 = this->getMesNasc(), dia1 = this->getDiaNasc();
+    int ano2 = c->getAnoNasc(), mes2 = c->getMesNasc(), dia2 = c->getDiaNasc();
+
+    if (ano1 < ano2 || (ano1 == ano2 && mes1 < mes2) || (ano1 == ano2 && mes1 == mes2 && dia1 < dia2)) {
+        return -1; 
+    } else if (ano1 > ano2 || (ano1 == ano2 && mes1 > mes2) || (ano1 == ano2 && mes1 == mes2 && dia1 > dia2)) {
+        return 1; 
+    }
+    return 0; 
 }

@@ -1,4 +1,6 @@
 #include "Partido.hpp"
+#include "Candidato.hpp"
+#include "Comparator.hpp"
 
 Partido::Partido(const string &nome, const string &sigla, const int &numPartido)
     : nome(nome), sigla(sigla), numPartido(numPartido), qtdVotosLegenda(0), candidatos() {}
@@ -33,31 +35,33 @@ int Partido::getQtdCandidatos() const{
 
 int Partido::getQtdVotosNominais() const{
     int total = 0;
-    for (Candidato c : candidatos) {
-        total += c.getNumVotos(); 
+    for (Candidato *c : candidatos) {
+        total += c->getNumVotos(); 
     }
     return total;
 }
 
 int Partido::getQtdEleitosNoPartido() const{
     int total = 0;
-    for (Candidato c : candidatos) {
-        if(c.verificaSeFoiEleito()){
+    for (Candidato *c : candidatos) {
+        if(c->verificaSeFoiEleito()){
             total++;
         }
     }
     return total;
 }
 
-void Partido::adicionaCandidato(Candidato &c) {
+void Partido::adicionaCandidato(Candidato *c) {
     this->candidatos.push_back(c);
 }
 
-list<Candidato> Partido::getCandidatos(){
-    //isso aqui nn tem problema não né
+list<Candidato*> Partido::getCandidatos(){
+    //Marcela:isso aqui nn tem problema não né?
     return candidatos;
 }
 
-list<Candidato> Partido::getCandidatosOrdenados(){
-    //
+list<Candidato*> Partido::getCandidatosOrdenados(){
+    //Marcela:Nesse caso está ordenando a lista original. É isso mesmo que a gente quer?
+    this->candidatos.sort(Comparator());
+    return candidatos;
 }
