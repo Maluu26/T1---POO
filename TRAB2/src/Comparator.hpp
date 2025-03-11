@@ -7,8 +7,9 @@ class Partido;
 class Comparator 
 {
 public:
-    bool operator()(const Candidato *a, const Candidato *b) const;
-    bool operator()(const Partido &a, const Partido &b) const;
+    bool comparaCandidatos(const Candidato &a, const Candidato &b) const;
+    bool comparaPartidos(const Partido &a, const Partido &b) const;
+    bool comparaCandidatosPartidos(const Partido &a, const Partido &b) const;
 };
 
 #endif

@@ -3,11 +3,13 @@
 
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <list>
 
 using namespace std;
 
 class Candidato;
+class Comparator;
 
 class Partido
 {
@@ -26,7 +28,7 @@ public:
     int getQtdVotosTotais() const;
     int getQtdVotosNominais() const;
     int getQtdEleitosNoPartido() const;
-    void adicionaCandidato(Candidato *c);
+    void adicionaCandidato(Candidato *c);//é com * mesmo?
     list<Candidato*> getCandidatos();
     list<Candidato*> getCandidatosOrdenados();
 

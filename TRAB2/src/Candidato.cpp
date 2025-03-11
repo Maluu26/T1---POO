@@ -2,7 +2,7 @@
 #include "Partido.hpp"
 
 Candidato::Candidato(const string &nome, const int &numUrna, const int &numFederacao, const int &foiEleito, const int &gen,
-    const string &nasc, Partido &partido) : partido(partido) {
+    const string &nasc, Partido *partido) : partido(partido) {
         this->nome = nome;
         this->numUrna = numUrna;
         this->numFederacao = numFederacao;
@@ -59,7 +59,7 @@ const int &Candidato::getNumUrna() const{
     return numUrna;
 }
 
-Partido &Candidato::getPartido() const{
+Partido *Candidato::getPartido() const{
     return this->partido;
 }
 

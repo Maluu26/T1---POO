@@ -60,8 +60,15 @@ list<Candidato*> Partido::getCandidatos(){
     return candidatos;
 }
 
-list<Candidato*> Partido::getCandidatosOrdenados(){
+list<Candidato*> Partido::getCandidatosOrdenados() {
     //Marcela:Nesse caso está ordenando a lista original. É isso mesmo que a gente quer?
-    this->candidatos.sort(Comparator());
+    Comparator comp;
+    candidatos.sort([&comp](const Candidato *a, const Candidato *b) {
+        // Se "a" for nullptr, ele deve vir depois de "b"
+        if (!a) return false;
+        // Se "b" for nullptr, "a" deve vir antes de "b"
+        if (!b) return true;
+        return comp.comparaCandidatos(*a, *b);
+    });
     return candidatos;
 }
