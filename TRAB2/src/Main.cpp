@@ -59,6 +59,7 @@ int main(){
     c3->incrementaVotosCandidato(200);
 
     Comparator comp;
+
     partidos.sort([&comp](const Partido *a, const Partido *b) {
         if (!a) return false;
         if (!b) return true;

@@ -55,20 +55,18 @@ void Partido::adicionaCandidato(Candidato *c) {
     this->candidatos.push_back(c);
 }
 
-list<Candidato*> Partido::getCandidatos(){
-    //Marcela:isso aqui nn tem problema não né?
-    return candidatos;
+const list<Candidato*> Partido::getCandidatos() const{
+    return this->candidatos;
 }
 
-list<Candidato*> Partido::getCandidatosOrdenados() {
-    //Marcela:Nesse caso está ordenando a lista original. É isso mesmo que a gente quer?
+const list<Candidato*> Partido::getCandidatosOrdenados() const {
+    list<Candidato*> candidatosOrdenados = this->candidatos;
+
     Comparator comp;
-    candidatos.sort([&comp](const Candidato *a, const Candidato *b) {
-        // Se "a" for nullptr, ele deve vir depois de "b"
-        if (!a) return false;
-        // Se "b" for nullptr, "a" deve vir antes de "b"
-        if (!b) return true;
+    candidatosOrdenados.sort([&comp](Candidato* a, Candidato* b) {
         return comp.comparaCandidatos(*a, *b);
     });
-    return candidatos;
+
+    return candidatosOrdenados;
 }
+

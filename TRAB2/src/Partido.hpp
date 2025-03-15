@@ -28,9 +28,9 @@ public:
     int getQtdVotosTotais() const;
     int getQtdVotosNominais() const;
     int getQtdEleitosNoPartido() const;
-    void adicionaCandidato(Candidato *c);//é com * mesmo?
-    list<Candidato*> getCandidatos();
-    list<Candidato*> getCandidatosOrdenados();
+    void adicionaCandidato(Candidato *c);
+    const list<Candidato*> getCandidatos() const;
+    const list<Candidato*> getCandidatosOrdenados() const;
 
 };
 

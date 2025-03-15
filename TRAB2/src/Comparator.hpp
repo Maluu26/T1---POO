@@ -4,6 +4,8 @@
 class Candidato;
 class Partido;
 
+using namespace std;
+
 class Comparator 
 {
 public:

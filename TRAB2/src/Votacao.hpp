@@ -7,6 +7,7 @@
 
 #include "Partido.hpp"
 #include "Candidato.hpp"
+#include "Comparator.hpp"
 
 using namespace std;
 
@@ -19,11 +20,12 @@ class Votacao
 
 public:
     Votacao();
-    void setDataEleicao(string &data) const; //MARCELA:temos que usar const ou não??
-    void atualizaVotacaoPartido(Partido *p, int chaveP) const;
-    void atualizaVotacaoCandidato(Candidato *c) const;      
-    void apuraVotos(int numUrna, int quantVotos, string &nomePart) const;
+    void setDataEleicao(string &data); 
+    void atualizaVotacaoPartido(Partido *p, int chaveP);
+    void atualizaVotacaoCandidato(Candidato *c);      
+    void apuraVotos(int numUrna, int quantVotos, string &nomePart);
     const Partido *getPartidoKey(int key) const;
+    void encontraEleitos();
     int getQtdEleitos() const;
     int getTotalVotosNominais()const;
     int foiMaisVotado(Candidato *c) const;    
@@ -33,7 +35,7 @@ public:
     list<Candidato*> getCandidatosEleitos() const;    
     map<int,Partido*> getPartidos();
     bool foiEleito(Candidato *c) const;
-    void ordenaCandidatos() const;
+    void ordenaCandidatos();
 };
 
 #endif

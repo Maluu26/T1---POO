@@ -16,6 +16,21 @@ bool Comparator::comparaPartidos(const Partido &a, const Partido &b) const{
     }
     return(dif < 0);
 }
+
 bool Comparator::comparaCandidatosPartidos(const Partido &a, const Partido &b) const{
-    return true;//so pra compilar sem warning
+   list<Candidato*> candidatosA = a.getCandidatosOrdenados();
+   list<Candidato*> candidatosB = b.getCandidatosOrdenados();
+
+   if (candidatosA.empty()) return false;
+   if (candidatosB.empty()) return true;
+
+   Candidato* candidatoMaisVotadoA = candidatosA.front();
+   Candidato* candidatoMaisVotadoB = candidatosB.front();
+
+   int dif = candidatoMaisVotadoB->getNumVotos() - candidatoMaisVotadoA->getNumVotos();
+   if (dif == 0) {
+       dif = a.getNumPartido() - b.getNumPartido();
+   }
+
+   return (dif < 0);
 }

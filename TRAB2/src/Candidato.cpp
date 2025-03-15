@@ -7,13 +7,14 @@ Candidato::Candidato(const string &nome, const int &numUrna, const int &numFeder
         this->numUrna = numUrna;
         this->numFederacao = numFederacao;
         this->foiEleito = foiEleito;
-        this->gen = gen;
+        if(gen == FEMININO) this->gen = FEMININO;
+        else this->gen = MASCULINO;
         this->numVotos = 0;
         this->idade = 0;
         sscanf(nasc.c_str(), "%d/%d/%d", &diaNasc, &mesNasc, &anoNasc);
 }
 
-void Candidato::calculaIdade(const string &dataEleicao) {
+void Candidato::calculaIdade(const string &dataEleicao) {    
     int dia, mes, ano;
     
     sscanf(dataEleicao.c_str(), "%d/%d/%d", &dia, &mes, &ano);
@@ -39,7 +40,7 @@ const int &Candidato::getNumVotos() const{
     return numVotos;
 }
 
-const int &Candidato::getGen() const{
+const genero &Candidato::getGen() const{
     return gen;
 }
 
